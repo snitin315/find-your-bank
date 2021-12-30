@@ -1,19 +1,18 @@
 import React from "react";
 import { Divider, Row, Col, Typography, Input, Select } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import ListBanks from "../components/ListBanks";
+import updateSearchParams from "../actionCreators/updateSearchParams";
 
 const { Option, OptGroup } = Select;
 const { Title } = Typography;
 const { Search } = Input;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 const AllBanks = () => {
   const banks = useSelector((state) => state.allBanks);
+  const searchParams = useSelector((state) => state.searchParams);
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
@@ -29,7 +28,10 @@ const AllBanks = () => {
             <Select
               placeholder="Select a city"
               style={{ width: "100%" }}
-              onChange={handleChange}
+              value={searchParams.city}
+              onSelect={(value) =>
+                dispatch(updateSearchParams({ city: value }))
+              }
             >
               <OptGroup label="City">
                 <Option value="DELHI">Delhi</Option>
@@ -44,7 +46,14 @@ const AllBanks = () => {
             <Select
               placeholder="Select a category"
               style={{ width: "100%" }}
-              onChange={handleChange}
+              onSelect={(value) =>
+                dispatch(
+                  updateSearchParams({
+                    city: searchParams.city,
+                    category: value,
+                  })
+                )
+              }
             >
               <OptGroup label="Category">
                 <Option value="IFSC">IFSC</Option>

@@ -4,9 +4,9 @@ import updateLoading from "../actionCreators/updateLoading";
 import updateError from "../actionCreators/updateError";
 import store from "../store";
 
-function fetchBanksFromAPI() {
-  store.dispatch(updateBanks([]));
-  store.dispatch(updateLoading(true));
+async function fetchBanksFromAPI() {
+  await store.dispatch(updateBanks([]));
+  await store.dispatch(updateLoading(true));
 
   const storeData = store.getState();
 

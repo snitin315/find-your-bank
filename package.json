@@ -18,7 +18,8 @@
     "fmt:check": "prettier \"{**/*,*}.{js,json,md,yml,css}\" --list-different",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "fmt": "npm run fmt:check -- --write"
+    "fmt": "npm run fmt:check -- --write",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -41,6 +42,8 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.4",
     "prettier": "^2.5.1"
   }
 }

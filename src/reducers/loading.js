@@ -1,6 +1,6 @@
-export default function refreshBanks(state = false, action) {
+export default function loading(state = false, action) {
   switch (action.type) {
-    case "SET_REFRESH_BANKS":
+    case "SET_LOADING":
       return action.payload;
     default:
       return state;

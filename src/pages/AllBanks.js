@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { Divider, Row, Col, Typography, Input, Select, Table } from "antd";
+import { Divider, Row, Col, Typography, Input, Select } from "antd";
 import { useSelector } from "react-redux";
 
+import ListBanks from "../components/ListBanks";
+
 const { Option, OptGroup } = Select;
-const { Column } = Table;
 const { Title } = Typography;
 const { Search } = Input;
 
@@ -13,9 +13,7 @@ function handleChange(value) {
 }
 
 const AllBanks = () => {
-  const [cursorStyle, setCursorStyle] = React.useState("auto");
   const banks = useSelector((state) => state.allBanks);
-  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -63,28 +61,7 @@ const AllBanks = () => {
           </Col>
         </Row>
       </React.Fragment>
-      <Table
-        bordered
-        loading={banks.length === 0}
-        pagination={{ position: ["bottomCenter"] }}
-        dataSource={banks}
-        tableLayout="fixed"
-        style={{ cursor: cursorStyle }}
-        scroll={{ y: 1200 }}
-        onRow={(record) => {
-          return {
-            onClick: () => history.push(`/bank-details/${record.ifsc}`), // click row
-            onMouseEnter: () => setCursorStyle("pointer"), // mouse enter row
-            onMouseLeave: () => setCursorStyle("auto"), // mouse leave row
-          };
-        }}
-      >
-        <Column title="Bank Name" dataIndex="bank_name" key="bank-name" />
-        <Column title="Branch" dataIndex="branch" key="branch" />
-        <Column title="IFSC" dataIndex="ifsc" key="ifsc" />
-        <Column title="Address" dataIndex="address" key="address" />
-        <Column title="Bank ID" dataIndex="bank_id" key="bank-id" />
-      </Table>
+      <ListBanks banks={banks} loading={banks.length === 0} />
     </React.Fragment>
   );
 };

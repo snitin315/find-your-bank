@@ -7,8 +7,9 @@ import {
   Redirect,
 } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
+import updateFavorites from "./actionCreators/updateFavorites";
 import fetchBanksFromAPI from "./utils/fetchBanks";
 import AllBanks from "./pages/AllBanks";
 import BankDetails from "./pages/BankDetails";
@@ -18,14 +19,26 @@ const { Header, Content, Footer } = Layout;
 
 function App() {
   const searchParams = useSelector((state) => state.searchParams);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchBanksFromAPI();
   }, [searchParams.city]);
 
+  useEffect(() => {
+    const myStorage = window.localStorage;
+    const localfavorites = JSON.parse(myStorage.getItem("favorites"));
+
+    if (localfavorites === null) {
+      myStorage.setItem("favorites", JSON.stringify([]));
+    } else {
+      dispatch(updateFavorites(localfavorites));
+    }
+  });
+
   return (
     <Router>
-      <Layout className="layout">
+      <Layout className="layout" style={{ height: "100%" }}>
         <Header>
           <div className="logo" />
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>

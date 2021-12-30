@@ -1,50 +1,21 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Divider, Row, Col, Typography, Input, Select, Table } from "antd";
 import { useSelector } from "react-redux";
 
 const { Option, OptGroup } = Select;
+const { Column } = Table;
 const { Title } = Typography;
 const { Search } = Input;
-
-const columns = [
-  {
-    title: "Favorite",
-    dataIndex: "favorite",
-    key: "favorite",
-  },
-  {
-    title: "Bank",
-    dataIndex: "bank_name",
-    key: "bank",
-  },
-  {
-    title: "Branch",
-    dataIndex: "branch",
-    key: "branch",
-  },
-  {
-    title: "IFSC",
-    dataIndex: "ifsc",
-    key: "ifsc",
-  },
-  {
-    title: "Bank ID",
-    dataIndex: "bank_id",
-    key: "bank-id",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-];
 
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
 const AllBanks = () => {
+  const [cursorStyle, setCursorStyle] = React.useState("auto");
   const banks = useSelector((state) => state.allBanks);
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -92,7 +63,28 @@ const AllBanks = () => {
           </Col>
         </Row>
       </React.Fragment>
-      <Table dataSource={banks} columns={columns} />;
+      <Table
+        bordered
+        loading={banks.length === 0}
+        pagination={{ position: ["bottomCenter"] }}
+        dataSource={banks}
+        tableLayout="fixed"
+        style={{ cursor: cursorStyle }}
+        scroll={{ y: 1200 }}
+        onRow={(record) => {
+          return {
+            onClick: () => history.push(`/bank-details/${record.ifsc}`), // click row
+            onMouseEnter: () => setCursorStyle("pointer"), // mouse enter row
+            onMouseLeave: () => setCursorStyle("auto"), // mouse leave row
+          };
+        }}
+      >
+        <Column title="Bank Name" dataIndex="bank_name" key="bank-name" />
+        <Column title="Branch" dataIndex="branch" key="branch" />
+        <Column title="IFSC" dataIndex="ifsc" key="ifsc" />
+        <Column title="Address" dataIndex="address" key="address" />
+        <Column title="Bank ID" dataIndex="bank_id" key="bank-id" />
+      </Table>
     </React.Fragment>
   );
 };

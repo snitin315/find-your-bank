@@ -7,8 +7,8 @@ function fetchBanksFromAPI() {
   const url = "https://vast-shore-74260.herokuapp.com/banks?city=";
 
   store.dispatch(updateBanks([]));
-
   store.dispatch(updateLoading(true));
+
   const storeData = store.getState();
 
   axios
@@ -18,6 +18,7 @@ function fetchBanksFromAPI() {
       store.dispatch(updateLoading(false));
     })
     .catch((data) => {
+      // eslint-disable-next-line no-console
       console.error(data);
     });
 }

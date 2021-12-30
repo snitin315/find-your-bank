@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ListBanks from "../components/ListBanks";
 import updateSearchParams from "../actionCreators/updateSearchParams";
+import updateLoading from "../actionCreators/updateLoading";
 
 const { Option, OptGroup } = Select;
 const { Title } = Typography;
@@ -13,6 +14,26 @@ const AllBanks = () => {
   const banks = useSelector((state) => state.allBanks);
   const searchParams = useSelector((state) => state.searchParams);
   const dispatch = useDispatch();
+
+  const [filteredBankList, setFilteredBankList] = React.useState([]);
+
+  React.useEffect(() => {
+    setFilteredBankList(banks);
+
+    if (searchParams.query !== "") {
+      dispatch(updateLoading(true));
+
+      setFilteredBankList(
+        banks.filter((bank) => {
+          return bank[searchParams.category]
+            .toLowerCase()
+            .includes(searchParams.query.toLowerCase());
+        })
+      );
+
+      dispatch(updateLoading(false));
+    }
+  }, [banks, searchParams.category, searchParams.query, dispatch]);
 
   return (
     <React.Fragment>
@@ -30,7 +51,9 @@ const AllBanks = () => {
               style={{ width: "100%" }}
               value={searchParams.city}
               onSelect={(value) =>
-                dispatch(updateSearchParams({ city: value }))
+                dispatch(
+                  updateSearchParams({ city: value, category: "", query: "" })
+                )
               }
             >
               <OptGroup label="City">
@@ -51,26 +74,36 @@ const AllBanks = () => {
                   updateSearchParams({
                     city: searchParams.city,
                     category: value,
+                    query: "",
                   })
                 )
               }
             >
               <OptGroup label="Category">
-                <Option value="IFSC">IFSC</Option>
-                <Option value="BRANCH">Branch</Option>
-                <Option value="BANK_NAME">Bank Name</Option>
+                <Option value="ifsc">IFSC</Option>
+                <Option value="branch">Branch</Option>
+                <Option value="bank_name">Bank Name</Option>
               </OptGroup>
             </Select>
           </Col>
           <Col className="gutter-row" span={6}>
             <Search
               placeholder="input search text"
-              onSearch={console.log("hi")}
+              onKeyUp={(e) => {
+                console.log(e.target.value);
+                dispatch(
+                  updateSearchParams({
+                    city: searchParams.city,
+                    category: searchParams.category,
+                    query: e.target.value,
+                  })
+                );
+              }}
             />
           </Col>
         </Row>
       </React.Fragment>
-      <ListBanks banks={banks} loading={banks.length === 0} />
+      <ListBanks banks={filteredBankList} loading={banks.length === 0} />
     </React.Fragment>
   );
 };

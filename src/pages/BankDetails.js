@@ -37,7 +37,11 @@ function BankDetails() {
         <Title> Bank Details</Title>
       </Divider>
       {bankDetails && (
-        <Card title={<Title>Bank Name : {bankDetails.bank_name}</Title>}>
+        <Card>
+          <Card.Grid style={gridStyle}>
+            <Title level={3}>Bank Name</Title>
+            {bankDetails.bank_name}
+          </Card.Grid>
           <Card.Grid style={gridStyle}>
             <Title level={3}>Address</Title>
             {bankDetails.address}

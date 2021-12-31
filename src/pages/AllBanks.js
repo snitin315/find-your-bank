@@ -41,11 +41,11 @@ const AllBanks = () => {
         <Title> All Banks</Title>
       </Divider>
       <React.Fragment>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          <Col className="gutter-row" span={6}>
+        <Row gutter={[32, 16]}>
+          <Col className="gutter-row" xs={24} sm={24} md={6}>
             <Title level={3}>Search Parameters</Title>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={24} sm={24} md={6}>
             <Select
               placeholder="Select a city"
               style={{ width: "100%" }}
@@ -65,7 +65,7 @@ const AllBanks = () => {
               </OptGroup>
             </Select>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={24} sm={24} md={6}>
             <Select
               placeholder="Select a category"
               style={{ width: "100%" }}
@@ -86,11 +86,10 @@ const AllBanks = () => {
               </OptGroup>
             </Select>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={24} sm={24} md={6}>
             <Search
               placeholder="input search text"
               onKeyUp={(e) => {
-                console.log(e.target.value);
                 dispatch(
                   updateSearchParams({
                     city: searchParams.city,
@@ -103,6 +102,7 @@ const AllBanks = () => {
           </Col>
         </Row>
       </React.Fragment>
+      <Divider />
       <ListBanks banks={filteredBankList} loading={banks.length === 0} />
     </React.Fragment>
   );

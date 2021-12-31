@@ -25,7 +25,7 @@ const ListBanks = ({ banks, loading }) => {
       dataSource={banks}
       tableLayout="fixed"
       style={{ cursor: cursorStyle }}
-      scroll={{ y: 1200 }}
+      scroll={{ y: 1200, x: "auto" }}
       onRow={() => {
         return {
           onMouseEnter: () => setCursorStyle("pointer"),

@@ -14,6 +14,7 @@ import fetchBanksFromAPI from "./utils/fetchBanks";
 import AllBanks from "./pages/AllBanks";
 import BankDetails from "./pages/BankDetails";
 import Favorites from "./pages/Favorites";
+import PageNotFound from "./components/PageNotFound";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,9 +69,9 @@ function App() {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={[
-              window.location.pathname.includes("favorites")
-                ? "favorites"
-                : "all-banks",
+              window.location.pathname.endsWith("/")
+                ? "all-banks"
+                : window.location.pathname.slice(1),
             ]}
           >
             <Menu.Item key="all-banks">
@@ -101,13 +102,13 @@ function App() {
           </Header>
           <Content style={{ padding: "10px 50px" }}>
             <Switch>
-              <Route path="/all-banks">
+              <Route exact path="/all-banks">
                 <AllBanks />
               </Route>
-              <Route path="/bank-details/:ifsc">
+              <Route exact path="/bank-details/:ifsc">
                 <BankDetails />
               </Route>
-              <Route path="/favorites">
+              <Route exact path="/favorites">
                 <Favorites />
               </Route>
               <Route
@@ -117,6 +118,7 @@ function App() {
                   return <Redirect to="/all-banks" />;
                 }}
               />
+              <Route component={PageNotFound} />
             </Switch>
           </Content>
           <Footer style={{ textAlign: "center" }}>

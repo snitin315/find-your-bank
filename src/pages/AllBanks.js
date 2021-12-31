@@ -88,7 +88,12 @@ const AllBanks = () => {
           </Col>
           <Col className="gutter-row" xs={24} sm={24} md={6}>
             <Search
-              placeholder="input search text"
+              placeholder={
+                searchParams.category.length === 0
+                  ? "Please select a category"
+                  : "input search text"
+              }
+              disabled={searchParams.category.length === 0}
               onKeyUp={(e) => {
                 dispatch(
                   updateSearchParams({

@@ -12,7 +12,7 @@ async function fetchBanksFromAPI() {
 
   axios
     .get(
-      `https://vast-shore-74260.herokuapp.com/banks?city=${storeData.searchParams.city}`,
+      `https://ea1c20ef-757e-407c-bd95-643e8f57bdce.mock.pstmn.io/banks?city=${storeData.searchParams.city}`,
       { timeout: 15000 }
     )
     .then((res) => {
